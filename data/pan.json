@@ -1,6 +1,16 @@
 {
   "version": "1.0.0",
   "list": [
-     
+    {
+      "name": "xxx1",
+      "cname": "xxx2",
+      "packageName": "xxxx.app",
+      "boundId": "xxxx",
+      "scheme": "aaa://bbb?url=",
+      "repository": {
+        "type": "git",
+        "url": ""
+      }
+    }
   ]
 }

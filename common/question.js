@@ -214,14 +214,14 @@ class question {
       {
         type: 'input',
         name: 'url',
-        message: 'app包仓库地址(git地址)',
+        message: 'app包仓库地址(git地址),用于存放对应app包，如果不需要安装可以不填写直接回车',
         default: !!appInfo.repository ? appInfo.repository.url : null,
-        validate: (val) => {
-          if (!/^git/.test(val)) {
-            return '请填写正确的仓库地址,如 git@xxx';
-          }
-          return true;
-        }
+        // validate: (val) => {
+        //   if (!/^git/.test(val)) {
+        //     return '请填写正确的仓库地址,如 git@xxx';
+        //   }
+        //   return true;
+        // }
       }
     ];
     if (!!appInfo.name) {

@@ -28,7 +28,7 @@ program
   .option('-y --yanxuan [type]', '启动模拟器并打开严选app')
   .option('-u --url [type]', '必须跟参数，直接打开参数所带的H5地址')
   .option('-t --translate [type]', 'encode url地址，用于生辰更直接在客户端内执行的命令')
-  .option('--init [type]', '初始化appList')
+  // .option('--init [type]', '初始化appList')
   .option('--add [type]', '对本地list添加app信息')
   .option('--update [type]', '更新指定app信息')
   .option('--remove [type]', '移除指定app')

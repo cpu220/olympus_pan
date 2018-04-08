@@ -97,6 +97,7 @@ class common {
     } else {
       head = info;
     }
+    console.log(`${head}${encodeURIComponent(url)}`)
     return `${head}${encodeURIComponent(url)}`;
   }
   // 找到对应appInfo

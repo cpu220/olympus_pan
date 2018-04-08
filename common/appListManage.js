@@ -1,6 +1,5 @@
 const utils = require('./utils');
-const listJSONRoot = './data/pan.json';
-const json = utils.JSON.get(listJSONRoot);
+const listJSONRoot = '../data/pan.json';
 
 class common {
   constructor() {
@@ -29,11 +28,10 @@ class common {
     
     return new Promise((resolve, reject) => { 
       const result = this.judgeInfo(info, json); 
-      console.log(result); 
       if (!result.has) {
         json.list.push(info);
         utils.file.reset(listJSONRoot, JSON.stringify(json, null, 2)).then(() => {
-          console.log(`${info.name} 存储完毕`);
+          console.log(`${info.name} 添加成功`);
           resolve();
         });
       } else if (result.errorCode === '1') {
@@ -105,8 +103,7 @@ class common {
     
     return new Promise((resolve, reject) => {
       if (result.has) {
-        json.list[result.index] = info;
-        // console.log(info);
+        json.list[result.index] = info; 
         utils.file.reset(listJSONRoot, JSON.stringify(json, null, 2)).then(() => {
           console.log(`${info.name} 已修改成功`);
           resolve();

@@ -1,38 +1,53 @@
 ## 说明
 >潘神（Pan）,希腊神话中司羊群和牧羊人的神，被认为是帮助孤独的航行者驱逐恐怖的神。就像在希腊神话中羊是不可或缺的一样，我们同样希望 Pan，能够帮助开发者驱逐一些因环境及条件等因素带来的疑难杂症。缩减问题复现及定位的时间。
 
-* pan将独立存在，不与任何业务进行耦合。但支持对任何第三方工具的嵌入式调用。
- 
-### 更新日志
- 
-### 安装
-* npm install -g olympus_pan 
- 
- 
-* ps: safari 只有古老的版本支持inline的代码 pretty print。 新版本不支持。 查看network 记得timeline 拉时间轴。具体操作请自行学习safari 调试技巧
- 
+### 使用条件
+* 一台装有xcode 的mac
+* 本地安装node
 
-### 命令
-* pan ios -s
-  * start
-  * 仅启动ios模拟器
-* pan ios -i 
-  * install
-  * 安装客户端 
- 
-* pan ios -h 
-  * help
-  * 帮助
-* pan ip  
-  * 打印当前设备及系统 name，以及 当前网络ip。  
- 
-### 配置表
-* 初次使用，需要添加app相关信息，虽然不添加也可以用，不过添加后就可以自行唤起你想要的客户端
-* 命令： pan ios --add  
+### 使用说明
+
+#### 安装
+
+``` javascript
+npm install olympus-pan -g 
+
+// 不建议使用sudo来进行安装，可以使用下面命令进行去sudo
+sudo chown -R $USER /usr/local
+```
+
+* 安装完毕后，请输入 `pan -v` 来查看是否安装成功。如果提示 `pan command not found`则安装失败
+
+#### 使用
+
+``` javascript
+pan ios -s  // 该命令为启动客户端
+```
+
+* 第一次启动，会看到 `当前未添加任何app信息,如想添加请查阅文档` 的提示。这是因为pan 扩展了对app管理的自定义模式，pan仅为对模拟器的调用及调试工具，与客户端管理解耦。用户根据自身业务自行对pan的配置项进行添加
+
+![start_pan_github.gif](http://nos.netease.com/knowledge/36d8e5ca-a283-4025-9a91-65ae9b3ac9e7?download=start_pan_github.gif) 
+
+#### 添加配置项
+* pan 内置了对配置项增、删、改、查的本地方法。使用方法如下
+
+
+* pan ios --add // 添加客户端
+
+![Snip20180408_5.png](http://nos.netease.com/knowledge/9c9d4aa2-6024-496a-b796-d2970c41b064?download=Snip20180408_5.png) 
+
+* pan ios --remove [type] // 删除配置项 [type] 为可选参数，如填写，则直接删除指定配置项，默认为空，即出现删除选择列表
+ * 比如：pan ios --remove xxx ，就会直接删掉xxx的配置项，跳过选择list 
+* pan ios --info [type] // 获取对应客户端配置项内容
+* pan ios --upadte [type] // 更新指定客户端配置项，应用场景:比如git仓库修改
+
+#### 手动修改配置项
+
+配置项格式如下:
 
  ```
 {
-  "name": 你客户端的英文名，用于客户端启动标记,
+  "name": 你客户端的英文名，用于客户端启动标记,唯一且不能重复
   "cname": 客户端中文名,
   "packageName": 客户端包名称,
   "boundId": 客户端对应的boundId,
@@ -43,10 +58,49 @@
   }
 },
  ```
+ 
 
- 如果想要远程安装，客户端需要按如下目录
+#### 在线安装客户端
+* 如果配置项内已经填写了客户端所在仓库地址，则只需要 `pan ios -i` 即可出现可安装列表。
+* 各业务部门可以自行维护该列表。
 
-root
-├── readme.md
-├── app
-    ├── xxx.ipa
+* 客户端git仓库目录规则:
+
+``` javascript
+
+  root
+  ├── readme.md
+  ├── app
+      ├── xxx.ipa
+
+```
+
+![](http://nos.netease.com/knowledge/626d3684-aeff-406f-8e95-a8ed63f8243b?download=installApp_pan_github.gif)
+
+#### 如何在iphoneX 的客户端内 打开指定页面？
+* 以严选为例
+ [url_pan_github.gif](http://nos.netease.com/knowledge/d8033468-7f7b-4913-b8ad-2aec34e5900c?download=url_pan_github.gif)
+
+ * 非严选客户端，则需要添加配置项才能支持
+ * 比如：如下配置项，那么指令为
+  * pan ios -u 'you.163.com' xxx1
+ 
+
+ ``` javascript
+  {
+      "name": "xxx1",
+      "cname": "xxx2",
+      "packageName": "xxxx.app",
+      "boundId": "xxxx",
+      "scheme": "aaa://bbb?url=",
+      "repository": {
+        "type": "git",
+        "url": ""
+      }
+    },
+ ```   
+
+ ![Snip20180408_7.png](http://nos.netease.com/knowledge/dffc5893-3b5e-402d-941f-d6f27fac5454?download=Snip20180408_7.png) 
+
+ * 也就是说 通过`pan ios -u "http://dizhi" [type]` 可以自定义客户端呼叫指令
+
