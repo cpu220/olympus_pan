@@ -46,7 +46,10 @@
 
  如果想要远程安装，客户端需要按如下目录
 
+``` javascript
 root
 ├── readme.md
 ├── app
     ├── xxx.ipa
+
+``` 
