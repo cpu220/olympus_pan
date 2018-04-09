@@ -3,7 +3,9 @@
 const program = require('commander'),
   appInfo = require('./../package.json'),
   ios = require('../lib/ios.js'),
-  ip = require('../lib/ip.js'),
+  _ip = require('../lib/ip.js'),
+  _path = require('../lib/path.js'),
+  
   color = require('colors-cli/toxic');
 
 
@@ -33,6 +35,7 @@ program
   .option('--update [type]', '更新指定app信息')
   .option('--remove [type]', '移除指定app')
   .option('--info [type]', '获取指定app的信息')
+  .option('--config [type]','同步配置项')
   .action(function (cmd, options) {
     ios(cmd, options); 
   }).on('--help', function () {
@@ -44,12 +47,19 @@ program
   .option('-p --ip [type]', '获取ip')
   .description('获取当前设备ip信息'.x29)
   .action(function (cmd, options) {
-    ip(cmd, options);
+    _ip(cmd, options);
   }).on('--help', function () {
     console.log('获取ip');
   })
 
-
+  program
+  .command('path [cmd]')
+  .description('当前路径信息'.x29)
+  .action(function (cmd, options) {
+    _path(cmd, options);
+  }).on('--help', function () {
+    console.log('获取路径信息');
+  })
 
 //默认不传参数输出help
 if (!process.argv[2]) { 

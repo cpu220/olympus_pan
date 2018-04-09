@@ -23,8 +23,8 @@ class common {
   // 安装app
   installPak(info, cb) {
     const _this = this;
-    appLoad.init();
-    appLoad.start();
+    // appLoad.init();
+    // appLoad.start();
     process.exec(`xcrun simctl install booted ${root}/app/${info.packageName}`, (err, stdout, stderr) => {
       console.log('== 安装完毕 == '.x34);
       _this.removePak().then(() => {
@@ -91,13 +91,17 @@ class common {
   }
 
   translateURL(url, info) {
-    let head;
-    if (!!info.scheme) {
-      head = info.scheme;
-    } else {
-      head = info;
-    }
-    console.log(`${head}${encodeURIComponent(url)}`)
+    let head = '';
+    try {
+      if (!!info.scheme) {
+        head = info.scheme;
+      } else {
+        head = '';
+      }
+    } catch (error) {
+
+    } 
+    // console.log(`${head}${encodeURIComponent(url)}`)
     return `${head}${encodeURIComponent(url)}`;
   }
   // 找到对应appInfo
@@ -118,6 +122,7 @@ class common {
     question.chooseDevice((answers) => {
       process.exec(`xcrun instruments -w '${answers.iphone}'`, (error, stdout, stderr) => {
         console.log('\n== 正在启动客户端 == \n'.x34)
+        appLoad.end();
         if (!!cb) {
           cb();
         }
@@ -161,8 +166,8 @@ class common {
 
         if (appInfo.name) {
           resolve(appInfo);
-        } else { 
-         
+        } else {
+
           reject();
         }
       }

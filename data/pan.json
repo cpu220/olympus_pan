@@ -1,5 +1,27 @@
 {
   "version": "1.0.0",
-  "list": [ 
+  "list": [
+    {
+      "name": "yanxuan",
+      "cname": "严选",
+      "packageName": "NeteaseYanxuan.app",
+      "boundId": "com.ntes.yanxuan",
+      "scheme": "yanxuan://yxwebview?url=",
+      "repository": {
+        "type": "git",
+        "url": "git@git.mail.netease.com:hzchenpengwei/yanxuan.git"
+      }
+    },
+    {
+      "name": "yanxuan_weex",
+      "cname": "严选(weex版)",
+      "packageName": "NeteaseYanxuan.app",
+      "boundId": "com.ntes.yanxuan",
+      "scheme": "yanxuan://weex?url=",
+      "repository": {
+        "type": "git",
+        "url": "git@git.mail.netease.com:hzchenpengwei/yanxuan_weex.git"
+      }
+    }
   ]
 }

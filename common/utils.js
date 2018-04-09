@@ -13,7 +13,7 @@ common.prototype.file = {
     set: function (file, message, opation) {
         return new Promise((resolve, reject) => {
             const dir = path.resolve(__dirname, file);
-           
+
             fs.appendFile(dir, message, (err) => {
                 if (err) {
                     reject(err);
@@ -24,7 +24,7 @@ common.prototype.file = {
     },
     reset: function (file, message) {
         return new Promise((resolve, reject) => {
-            const dir = path.resolve(__dirname, file); 
+            const dir = path.resolve(__dirname, file);
             fs.writeFile(dir, message, (err) => {
                 if (err) {
                     reject(err);
@@ -34,10 +34,10 @@ common.prototype.file = {
         });
 
     },
+
     read: function (file) {
         return new Promise((resolve, reject) => {
             const dir = path.resolve(__dirname, file);
-            
             fs.readFile(dir, 'utf8', (err, data) => {
                 if (err) {
                     reject(err);
@@ -152,8 +152,17 @@ common.prototype.file = {
     // 读取文件
     readFile: function (obj) {
         return new Promise((resolve, reject) => {
-            fs.readFile(obj.path, obj.encode || 'utf8', (err, file) => {
-                resolve(err, file);
+            let dir = obj.path;
+            if (obj.isAbsolute) {
+                dir = path.resolve(__dirname, obj.path);
+            } 
+            fs.readFile(dir, obj.encode || 'utf8', (err, file) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(file);
+                }
+                // resolve(err, file);
                 // obj.callback(err, file);
             });
         })
@@ -166,7 +175,7 @@ common.prototype.file = {
 common.prototype.JSON = {
     get: function (file) {
         const dir = path.resolve(__dirname, file);
-        const fileStr = fs.readFileSync(dir); 
+        const fileStr = fs.readFileSync(dir);
         return JSON.parse(fileStr);
     }
 };

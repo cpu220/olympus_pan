@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
 const appJson = require('../data/pan.json');
 const process = require('child_process');
-
+const path = require('path');
 
 const iosTools = require('./iosTools');
 
@@ -244,7 +244,40 @@ class question {
       }
     });
   }
+  // 输入地址
+  getConfig() {
+    const configList = [{
+      type: 'list',
+      message: '请选择操作类型',
+      name: 'type',
+      choices: [{
+        name: '导出',
+        value: 'export'
+      }, {
+        name: '导入',
+        value: 'import'
+      }],
+    }, {
+      type: 'input',
+      name: 'url',
+      message: "请输入地址",
+      validate: (val) => {
+        let _urlObj = path.parse(val); 
+        if(!!_urlObj.ext.trim() === false){
+           return '请填写准确的文件地址(xxx/xxx/xxx.xx)';
+        }
+        return true;
+      }
+    }];
+    return new Promise((resolve, reject) => {
+      inquirer.prompt(configList).then((answers) => {
+        resolve(answers);
+      }).catch(err => {
+        reject(err);
+      });
+    });
 
+  }
 
 }
 // const a = new question();

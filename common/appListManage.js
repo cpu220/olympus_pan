@@ -1,5 +1,8 @@
 const utils = require('./utils');
+const question = require('./question');
 const listJSONRoot = '../data/pan.json';
+const path = require('path');
+const fs = require('fs');
 
 class common {
   constructor() {
@@ -25,9 +28,9 @@ class common {
     const {
       json
     } = this.state;
-    
-    return new Promise((resolve, reject) => { 
-      const result = this.judgeInfo(info, json); 
+
+    return new Promise((resolve, reject) => {
+      const result = this.judgeInfo(info, json);
       if (!result.has) {
         json.list.push(info);
         utils.file.reset(listJSONRoot, JSON.stringify(json, null, 2)).then(() => {
@@ -100,10 +103,10 @@ class common {
     } = this.state;
     let flag = false;
     const result = this.judgeInfo(info, json);
-    
+
     return new Promise((resolve, reject) => {
       if (result.has) {
-        json.list[result.index] = info; 
+        json.list[result.index] = info;
         utils.file.reset(listJSONRoot, JSON.stringify(json, null, 2)).then(() => {
           console.log(`${info.name} 已修改成功`);
           resolve();
@@ -112,6 +115,25 @@ class common {
         reject();
       }
     })
+  }
+  // 导入配置项
+  importConfig(answers) { 
+    utils.file.readFile({
+      path: answers.url,
+      isAbsolute: false,
+    }).then((data) => { 
+      utils.file.reset(listJSONRoot, data);
+    }).catch(err => console.log(err))
+  }
+  // 导出配置项
+  exportsConfig(answers) { 
+    utils.file.readFile({
+      path: listJSONRoot,
+      isAbsolute: true
+    }).then((data) => { 
+      utils.file.reset(answers.url, data);
+    }).catch(err => console.log(err))
+
 
   }
 }
