@@ -1,6 +1,10 @@
 const fs = require('fs');
 const question = require('./question');
-const appJson = require('../data/pan.json');
+
+const _config = require('../data/config.json');
+const listJSONRoot = _config.panJSON;
+const appJson = require(listJSONRoot);
+
 const process = require('child_process');
 
 color = require('colors-cli/toxic');

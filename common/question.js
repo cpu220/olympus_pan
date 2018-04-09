@@ -1,5 +1,11 @@
 const inquirer = require('inquirer');
-const appJson = require('../data/pan.json');
+
+
+const _config = require('../data/config.json');
+const listJSONRoot = _config.panJSON;
+const appJson = require(listJSONRoot);
+
+// const appJson = require('../data/pan.json');
 const process = require('child_process');
 const path = require('path');
 
@@ -256,15 +262,27 @@ class question {
       }, {
         name: '导入',
         value: 'import'
+      }, {
+        name: '自定义配置项目录',
+        value: 'userDefined'
+      }, {
+        name: '重置',
+        value: 'reset'
+        
       }],
     }, {
       type: 'input',
       name: 'url',
       message: "请输入地址",
+      when:(answers)=>{
+        if(answers.type !== 'reset'){
+          return answers.type;
+        }
+      },
       validate: (val) => {
-        let _urlObj = path.parse(val); 
-        if(!!_urlObj.ext.trim() === false){
-           return '请填写准确的文件地址(xxx/xxx/xxx.xx)';
+        let _urlObj = path.parse(val);
+        if (!!_urlObj.ext.trim() === false) {
+          return '请填写准确的文件地址(xxx/xxx/xxx.xx)';
         }
         return true;
       }

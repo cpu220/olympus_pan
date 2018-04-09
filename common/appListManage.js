@@ -1,6 +1,12 @@
+
+const _configRoot = '../data/config.json';
+const _defaultConfigRoot = '../data/pan.json';
 const utils = require('./utils');
 const question = require('./question');
-const listJSONRoot = '../data/pan.json';
+const _config = require(_configRoot);
+const listJSONRoot = _config.panJSON;
+// const _listJSONRoot = _config.panJSON;
+
 const path = require('path');
 const fs = require('fs');
 
@@ -11,7 +17,12 @@ class common {
     }
   }
 
-  // 获取list
+  /**
+   * 获取配置项list
+   * 
+   * @returns 
+   * @memberof common
+   */
   getList() {
     return new Promise((resolve, reject) => {
       utils.file.read(listJSONRoot).then((file) => {
@@ -23,7 +34,13 @@ class common {
 
   }
 
-  // 插入app信息
+  /**
+   * 插入app信息
+   * 
+   * @param {any} info 
+   * @returns 
+   * @memberof common
+   */
   addApp(info) {
     const {
       json
@@ -48,7 +65,14 @@ class common {
 
   }
 
-  // 判断当前信息能否添加
+  /**
+   * 判断当前信息能否添加
+   * 
+   * @param {any} info 
+   * @param {any} json 
+   * @returns 
+   * @memberof common
+   */
   judgeInfo(info, json) {
     let result = {
       index: 0,
@@ -75,7 +99,13 @@ class common {
     return result;
   }
 
-  // 删除数据
+  /**
+   * 删除数据
+   * 
+   * @param {any} info 
+   * @returns 
+   * @memberof common
+   */
   removeApp(info) {
     const {
       json
@@ -97,6 +127,13 @@ class common {
       });
     })
   }
+  /**
+   * 更新app配置项
+   * 
+   * @param {any} info 
+   * @returns 
+   * @memberof common
+   */
   updateApp(info) {
     const {
       json
@@ -116,7 +153,12 @@ class common {
       }
     })
   }
-  // 导入配置项
+  /**
+   * 导入配置项
+   * 
+   * @param {any} answers 
+   * @memberof common
+   */
   importConfig(answers) { 
     utils.file.readFile({
       path: answers.url,
@@ -125,16 +167,41 @@ class common {
       utils.file.reset(listJSONRoot, data);
     }).catch(err => console.log(err))
   }
-  // 导出配置项
+  /**
+   * 导出配置项
+   * 
+   * @param {any} answers 
+   * @memberof common
+   */
   exportsConfig(answers) { 
     utils.file.readFile({
       path: listJSONRoot,
       isAbsolute: true
     }).then((data) => { 
       utils.file.reset(answers.url, data);
-    }).catch(err => console.log(err))
-
-
+    }).catch(err => console.log(err)); 
+  }
+  /**
+   * 将默认目录更改为自定义目录
+   * 
+   * @param {any} answers 
+   * @memberof common
+   */
+  userDefined(answers){
+     _config.panJSON = answers.url;
+     const jsonStr = JSON.stringify(_config,'',2);
+     utils.file.reset(_configRoot, jsonStr);
+  }
+  /**
+   * 重置回默认配置项地址
+   * 
+   * @param {any} answers 
+   * @memberof common
+   */
+  resetConfig(answers){
+    _config.panJSON = _defaultConfigRoot;
+    const jsonStr = JSON.stringify(_config,'',2);
+    utils.file.reset(_configRoot, jsonStr);
   }
 }
 module.exports = new common();
