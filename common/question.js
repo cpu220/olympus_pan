@@ -1,14 +1,12 @@
+const path = require('path');
+const fs = require('fs');
+const utils = require('./utils');
+
 const inquirer = require('inquirer');
-
-
 const _config = require('../data/config.json');
 const listJSONRoot = _config.panJSON;
 const appJson = require(listJSONRoot);
-
-// const appJson = require('../data/pan.json');
 const process = require('child_process');
-const path = require('path');
-
 const iosTools = require('./iosTools');
 
 class question {
@@ -251,7 +249,9 @@ class question {
     });
   }
   // 输入地址
-  getConfig() {
+  async getConfig() {
+    const _this =this;
+    const file = await utils.file.getFile('./', ['json', 'js']);
     const configList = [{
       type: 'list',
       message: '请选择操作类型',
@@ -268,14 +268,16 @@ class question {
       }, {
         name: '重置',
         value: 'reset'
-        
+      }, {
+        name: '使用当前目录文件',
+        value: 'this'
       }],
     }, {
       type: 'input',
       name: 'url',
       message: "请输入地址",
-      when:(answers)=>{
-        if(answers.type !== 'reset'){
+      when: (answers) => {
+        if (answers.type !== 'reset' && answers.type !== 'this') {
           return answers.type;
         }
       },
@@ -285,6 +287,19 @@ class question {
           return '请填写准确的文件地址(xxx/xxx/xxx.xx)';
         }
         return true;
+      }
+    }, {
+      type: 'list',
+      name: 'fileName',
+      message: '输选择文件名',
+      choices:file||[],
+      when: (answers) => {
+        if (answers.type === 'this') {
+          return answers.type;
+        }
+      },
+      filter: function (val) {
+        return val;
       }
     }];
     return new Promise((resolve, reject) => {
@@ -296,6 +311,7 @@ class question {
     });
 
   }
+
 
 }
 // const a = new question();

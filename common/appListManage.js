@@ -1,4 +1,3 @@
-
 const _configRoot = '../data/config.json';
 const _defaultConfigRoot = '../data/pan.json';
 const utils = require('./utils');
@@ -7,8 +6,10 @@ const _config = require(_configRoot);
 const listJSONRoot = _config.panJSON;
 // const _listJSONRoot = _config.panJSON;
 
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
+const log = utils.msg;
+
 
 class common {
   constructor() {
@@ -120,7 +121,7 @@ class common {
       json.list = result;
 
       utils.file.reset(listJSONRoot, JSON.stringify(json, null, 2)).then(() => {
-        console.log(`${info.name} 已成功删除`);
+        log.success(`${info.name} 已成功删除`);
         resolve()
       }).catch((err) => {
         reject(err);
@@ -145,7 +146,7 @@ class common {
       if (result.has) {
         json.list[result.index] = info;
         utils.file.reset(listJSONRoot, JSON.stringify(json, null, 2)).then(() => {
-          console.log(`${info.name} 已修改成功`);
+          log.success(`${info.name} 已修改成功`);
           resolve();
         });
       } else if (!result.flag && result.errorCode === '0') {
@@ -159,11 +160,11 @@ class common {
    * @param {any} answers 
    * @memberof common
    */
-  importConfig(answers) { 
+  importConfig(answers) {
     utils.file.readFile({
       path: answers.url,
       isAbsolute: false,
-    }).then((data) => { 
+    }).then((data) => {
       utils.file.reset(listJSONRoot, data);
     }).catch(err => console.log(err))
   }
@@ -173,13 +174,14 @@ class common {
    * @param {any} answers 
    * @memberof common
    */
-  exportsConfig(answers) { 
+  exportsConfig(answers) {
     utils.file.readFile({
       path: listJSONRoot,
       isAbsolute: true
-    }).then((data) => { 
+    }).then((data) => {
       utils.file.reset(answers.url, data);
-    }).catch(err => console.log(err)); 
+      log.success('== success ==');
+    }).catch(err =>log.error(err));
   }
   /**
    * 将默认目录更改为自定义目录
@@ -187,10 +189,11 @@ class common {
    * @param {any} answers 
    * @memberof common
    */
-  userDefined(answers){
-     _config.panJSON = answers.url;
-     const jsonStr = JSON.stringify(_config,'',2);
-     utils.file.reset(_configRoot, jsonStr);
+  userDefined(answers) {
+    _config.panJSON = answers.url;
+    const jsonStr = JSON.stringify(_config, '', 2);
+    utils.file.reset(_configRoot, jsonStr);
+    log.success('== success ==');
   }
   /**
    * 重置回默认配置项地址
@@ -198,10 +201,27 @@ class common {
    * @param {any} answers 
    * @memberof common
    */
-  resetConfig(answers){
+  resetConfig(answers) {
     _config.panJSON = _defaultConfigRoot;
-    const jsonStr = JSON.stringify(_config,'',2);
+    const jsonStr = JSON.stringify(_config, '', 2);
     utils.file.reset(_configRoot, jsonStr);
+    log.success('== success ==');
+  }
+  /**
+   * 使用当前目录文件作为配置项，同步到默认配置项文件，防止文件被删
+   * 
+   * @param {any} answers 
+   * @memberof common
+   */
+  async useThisDirFile(answers) {
+    
+    const url = `./${answers.fileName}`;
+    utils.file.readFile({
+      path: url
+    }).then(data => {
+      utils.file.reset(listJSONRoot, data);
+      log.success('== success =='); 
+    }); 
   }
 }
 module.exports = new common();

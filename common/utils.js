@@ -4,6 +4,8 @@
 const msg = require('./msgColor');
 const fs = require('fs');
 const path = require('path');
+const process = require('child_process');
+
 const common = function () {
 
 }
@@ -59,33 +61,21 @@ common.prototype.file = {
     readdirSync: function (path, callback) {
         return new Promise((resolove, reject) => {
             const file = fs.readdirSync(path);
+            resolve(file);
         });
-        resolve();
+
     },
-    // 获取指定目录下指定文件合集
-    searchFileType: function (root, fileType, callback) {
-        this.array = [];
-        this.getFile(root, fileType).then(array => callback(array));
-    },
+
     // 获取指定目录下指定文件合集（内部调用方法）
     getFile: function (root, fileType) {
-        const _this = this;
         return new Promise((resolve, reject) => {
-            _this.readdirSync(root, (file) => {
-                file.forEach((file) => {
-                    if (file.indexOf('.' + fileType) > 0) {
-                        _this.array.push(file);
-                    } else if (file.indexOf('.') < 0) {
-                        // 目录
-                        _this.getFile(root + '/' + file, fileType).then((file) => {
-                            _this.array.concat(file);
-                        });
-                    }
-                });
-
-            });
-            resolve(_this.array);
-        });
+            const file = fs.readdirSync(root);
+            const array = file.filter((name) => {
+                const arr = name.split('.');
+                return fileType.includes(arr[arr.length - 1])
+            })
+            resolve(array);
+        })
     },
     open: function (file) {
         return new Promise((resolve, reject) => {
@@ -155,7 +145,7 @@ common.prototype.file = {
             let dir = obj.path;
             if (obj.isAbsolute) {
                 dir = path.resolve(__dirname, obj.path);
-            } 
+            }
             fs.readFile(dir, obj.encode || 'utf8', (err, file) => {
                 if (err) {
                     reject(err);
@@ -221,9 +211,52 @@ common.prototype.tools = {
             obj[key] = value;
         }
         return JSON.stringify(obj);
+    },
+    getDir: function () {
+        return new Promise((resolve, reject) => {
+            process.exec(`pwd`, (err, stdout, stderr) => {
+                if (!!err) {
+                    reject(err);
+                } else {
+                    resolve(stdout);
+                }
+            })
+        });
     }
 };
 
+common.prototype.template = {
+    templateReg : /\{\{(.*?)\}\}/g,
+    render: function (template, context) {
+        reg = this.templateReg;
+        return template.replace(/\{\{(.*?)\}\}/g, (match, key) => {
+            const arr = key.split('.'); // 判断是否携带功能参数
+            let str = '';
+            const _key = arr[0]
+            if (arr.length > 1) {
+                const type = arr[1];
+                const _val = context[_key];
+                if (type === 'encode') {
+                    str = encodeURIComponent(_val);
+                } else if (type === 'decode') {
+                    str = decodeURIComponent(_val);
+                }
+            } else {
+                str = context[_key];
+            }
+            return str;
+        });
+    },
+    getTemplateKey:function(template){
+        reg = this.templateReg;
+        const str = reg.exec(template)[1];
+        if(str.indexOf('.')){
+            return str.split('.')[0]
+        }else{
+            return str;
+        } 
+    }
+}
 
 // 打印日志
 common.prototype.msg = msg;

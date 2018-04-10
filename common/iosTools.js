@@ -1,5 +1,6 @@
 const fs = require('fs');
 const question = require('./question');
+const utils = require('./utils');
 
 const _config = require('../data/config.json');
 const listJSONRoot = _config.panJSON;
@@ -13,7 +14,7 @@ const loader = require('./loading');
 
 const appLoad = new loader()
 const root = './temp';
-
+const log = utils.msg;
 
 class common {
   constructor() {
@@ -27,11 +28,12 @@ class common {
   // 安装app
   installPak(info, cb) {
     const _this = this;
-    // appLoad.init();
-    // appLoad.start();
+    appLoad.init();
+    appLoad.start();
     process.exec(`xcrun simctl install booted ${root}/app/${info.packageName}`, (err, stdout, stderr) => {
       console.log('== 安装完毕 == '.x34);
       _this.removePak().then(() => {
+        appLoad.end();
         if (!!cb) {
           cb()
         }
@@ -96,17 +98,32 @@ class common {
 
   translateURL(url, info) {
     let head = '';
+    let _url = url;
+
     try {
       if (!!info.scheme) {
-        head = info.scheme;
+        // head = info.scheme; 
+        const template = info.scheme;
+        if (/\{\{(.*?)\}\}/.test(template)) {
+          // 含有模板规则 
+          // 考虑到后续的扩展性，不建议封装在一起
+          const key = utils.template.getTemplateKey(template);
+          const json = {};
+          json[key] = url;
+          _url = utils.template.render(template, json);
+        } else {
+          // 不含模板规则
+          head = template;
+          _url = encodeURIComponent(url);
+        }
       } else {
+
         head = '';
       }
     } catch (error) {
-
-    } 
-    // console.log(`${head}${encodeURIComponent(url)}`)
-    return `${head}${encodeURIComponent(url)}`;
+      console.log(error);
+    }
+    return `${head}${_url}`;
   }
   // 找到对应appInfo
   getAppInfo(name, key) {
@@ -126,7 +143,7 @@ class common {
     question.chooseDevice((answers) => {
       process.exec(`xcrun instruments -w '${answers.iphone}'`, (error, stdout, stderr) => {
         console.log('\n== 正在启动客户端 == \n'.x34)
-        appLoad.end();
+        // appLoad.end();
         if (!!cb) {
           cb();
         }
@@ -137,13 +154,14 @@ class common {
     const _this = this;
     return new Promise((resolve, reject) => {
       process.exec(`xcrun simctl openurl booted '${url}'`, (error, stdout, stderr) => {
-        if (!!error) {
-          console.log('启动客户端')
+        if (!!error && error.code === 163) {
+          // 客户端还未启动
+          log.info('启动客户端')
           _this.openIphone(() => {
             _this.openUrl(url, cb);
           })
         } else {
-          console.log('== success =='.x34);
+          log.success('== success ==');
           resolve();
         }
       });
