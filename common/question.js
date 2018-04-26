@@ -197,23 +197,23 @@ class question {
         name: 'boundId',
         message: '请填写boundId',
         default: appInfo.boundId || null,
-        validate: (val) => {
-          if (val.trim() === '') {
-            return '请填写boundId';
-          }
-          return true;
-        }
+        // validate: (val) => {
+        //   if (val.trim() === '') {
+        //     return '请填写boundId';
+        //   }
+        //   return true;
+        // }
       }, {
         type: 'input',
         name: 'scheme',
         message: '请填写scheme(用于调用对应app打开H5页面,如:xxx://webview?url=)',
         default: appInfo.scheme || null,
-        validate: (val) => {
-          if (val.trim() === '') {
-            return '请填写scheme';
-          }
-          return true;
-        }
+        // validate: (val) => {
+        //   if (val.trim() === '') {
+        //     return '请填写scheme';
+        //   }
+        //   return true;
+        // }
       },
       {
         type: 'input',

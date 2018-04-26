@@ -6,8 +6,8 @@
 
 
 ### 1. 使用条件
-* 一台装有xcode 的mac
-* 本地安装node
+* 一台装有xcode 的mac 
+* 本地安装node 8.x
 
 ### 2.  安装
 
@@ -207,6 +207,7 @@ pan ios -u 'http://xxx'  yanxuan
 * pan path // 用于获取当前目录地址
 
 ### 5. Q&A
+
 1. 怎么调试h5？
   * 首先，safari-> preferences -> Advanced ->  Show Develop menu in menu bar 
   * ![debug](https://mimg.127.net/pub/img/555.gif)
