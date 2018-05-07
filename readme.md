@@ -6,8 +6,8 @@
 
 
 ### 1. 使用条件
-* 一台装有xcode 的mac
-* 本地安装node
+* 一台装有xcode 的mac 
+* 本地安装node 8.x
 
 ### 2.  安装
 
@@ -35,7 +35,8 @@ pan ios -s  // 该命令为启动客户端
 
 * 第一次启动，会看到 `当前未添加任何app信息,如想添加请查阅文档` 的提示。这是因为pan 扩展了对app管理的自定义模式，pan仅作为对模拟器的调用及调试工具，与客户端管理解耦。用户根据自身业务自行对pan的配置项进行添加
 
-![start_pan_github.gif](http://7xqv6o.com1.z0.glb.clouddn.com/start_pan_github.gif) 
+ ```   
+![start_pan_github.gif](https://user-images.githubusercontent.com/5085979/39687112-55948b04-51ff-11e8-8081-fcc482d2b649.gif) 
  
 
 ---
@@ -47,7 +48,7 @@ pan ios -s  // 该命令为启动客户端
 ``` javascript
 pan ios -u 'http://xxx'  yanxuan  
 ```
-* ![url_pan_github.gif](http://7xqv6o.com1.z0.glb.clouddn.com/url_pan_github.gif)
+* ![url_pan_github.gif](https://user-images.githubusercontent.com/5085979/39689737-6a6828aa-520a-11e8-8b07-9b97952b9bf6.gif))
 
 
 * 非严选客户端，则需要添加配置项才能支持
@@ -69,7 +70,7 @@ pan ios -u 'http://xxx'  yanxuan
     },
  ```   
 
-  * ![Snip20180408_7.png](http://7xqv6o.com1.z0.glb.clouddn.com/Snip20180408_7.png) 
+  * ![Snip20180408_7.png](https://user-images.githubusercontent.com/5085979/39687640-fac03694-5201-11e8-926a-5f45893c648b.png) 
 
   * 也就是说 通过`pan ios -u "http://dizhi" [type]` 可以自定义客户端呼叫指令
   * 所有的客户端呼叫、安装，全部依赖pan所导入的配置项内容
@@ -96,7 +97,7 @@ pan ios -u 'http://xxx'  yanxuan
 
 * pan ios --add // 添加客户端
 
-![Snip20180408_5.png](http://7xqv6o.com1.z0.glb.clouddn.com/Snip20180408_5.png) 
+![Snip20180408_5.png](https://user-images.githubusercontent.com/5085979/39687657-0aac2e28-5202-11e8-823e-cad0f7a8290d.png) 
 
 * pan ios --remove [type] // 删除配置项 [type] 为可选参数，如填写，则直接删除指定配置项，默认为空，即出现删除选择列表
  * 比如：pan ios --remove xxx ，就会直接删掉xxx的配置项，跳过选择list 
@@ -156,7 +157,7 @@ pan ios -u 'http://xxx'  yanxuan
 
 ```
 
-![installApp_pan_github](http://7xqv6o.com1.z0.glb.clouddn.com/installApp_pan_github.gif)
+![installApp_pan_github](https://user-images.githubusercontent.com/5085979/39687676-1f7a58e8-5202-11e8-83e6-627d2f2914b2.gif)
 
 
 ---
@@ -166,14 +167,14 @@ pan ios -u 'http://xxx'  yanxuan
 * pan ios --config 
   * 选择导入
   * 输入导入的目标文件，注意必须含后缀
-![config_pan_github.gif](http://7xqv6o.com1.z0.glb.clouddn.com/config_pan_github.gif) 
+![config_pan_github.gif](https://user-images.githubusercontent.com/5085979/39687745-5ac29758-5202-11e8-867a-b3ea76680d8e.gif) 
 
 * 将配置文件导出到自定义目录
 * pan ios --config
   * 选择导出
   * 输入导出的目标路径文件
 
-  ![config_pan_github_2.gif](http://7xqv6o.com1.z0.glb.clouddn.com/config_pan_github_2.gif) 
+  ![config_pan_github_2.gif](https://user-images.githubusercontent.com/5085979/39687782-7e69726c-5202-11e8-8475-526cfc9f4f17.gif) 
 
 ---
 
@@ -182,14 +183,14 @@ pan ios -u 'http://xxx'  yanxuan
 * pan ios --config
   * 选择自定义选项
   * 输入导入的目标文件，注意必须含后缀
-  * ![config_pan_github_3](http://7xqv6o.com1.z0.glb.clouddn.com/config_pan_github_3.gif)
+  * ![config_pan_github_3](https://user-images.githubusercontent.com/5085979/39687812-93fca7de-5202-11e8-9a5d-0ee1a0ebe8cb.gif)
 
 ---
 
 #### 4.6 重置配置项
 * pan ios --config
    * 选择重置
-   * ![config_pan_github_4](http://7xqv6o.com1.z0.glb.clouddn.com/config_pan_github_4.gif)
+   * ![config_pan_github_4](https://user-images.githubusercontent.com/5085979/39687843-b21beb8a-5202-11e8-97b4-ce0871dcbee9.gif)
 
 ---
 
@@ -197,7 +198,7 @@ pan ios -u 'http://xxx'  yanxuan
 * pan ios --config
  * 选择`使用当前目录文件`
  * 选择列表内的配置文件名，进行导入
- * ![config_pan_github_5](http://7xqv6o.com1.z0.glb.clouddn.com/config_pan_github_5.gif)
+ * ![config_pan_github_5](https://user-images.githubusercontent.com/5085979/39687885-e2d94e7a-5202-11e8-947f-36cad62f1f85.gif)
 
 ---
 
@@ -207,6 +208,7 @@ pan ios -u 'http://xxx'  yanxuan
 * pan path // 用于获取当前目录地址
 
 ### 5. Q&A
+
 1. 怎么调试h5？
   * 首先，safari-> preferences -> Advanced ->  Show Develop menu in menu bar 
   * ![debug](https://mimg.127.net/pub/img/555.gif)
