@@ -158,6 +158,18 @@ common.prototype.file = {
         })
 
     },
+    // 获取目标网页的内容
+    getWeb: (url) => {
+        return new Promise((resolove, reject) => {
+            process.exec(`curl ${url}`, (err, stdout, stderr) => {
+                if (!!err) {
+                    reject(err);
+                } else {
+                    resolove(stdout);
+                }
+            })
+        })
+    }
 
 };
 
@@ -226,7 +238,7 @@ common.prototype.tools = {
 };
 
 common.prototype.template = {
-    templateReg : /\{\{(.*?)\}\}/g,
+    templateReg: /\{\{(.*?)\}\}/g,
     render: function (template, context) {
         reg = this.templateReg;
         return template.replace(/\{\{(.*?)\}\}/g, (match, key) => {
@@ -247,14 +259,14 @@ common.prototype.template = {
             return str;
         });
     },
-    getTemplateKey:function(template){
+    getTemplateKey: function (template) {
         reg = this.templateReg;
         const str = reg.exec(template)[1];
-        if(str.indexOf('.')){
+        if (str.indexOf('.')) {
             return str.split('.')[0]
-        }else{
+        } else {
             return str;
-        } 
+        }
     }
 }
 
