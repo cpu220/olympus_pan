@@ -35,16 +35,24 @@ class question {
   }
   //  获取当前设备的模拟器list
   getIphoneList() {
+    const client = _config.client;
     return new Promise((resolve, reject) => {
       console.log('== 正在获取本地设备清单 =='.x34);
       console.log('ps: 首次启动时间较长，请耐心等待... \n');
-      process.exec("xcrun instruments -w 'iphone'", (err, stdout, stderr) => {
+      const cl = `xcrun instruments -w "${client}"`; 
+      // console.log(cl);
+      process.exec(cl, (err, stdout, stderr) => {
         const arr = stderr.split('\n')
         const iphoneList = [];
-        for (let i = 1; i < arr.length; i++) {
-          if (/^iPhone/.test(arr[i])) {
+        const reg =  new RegExp(`^`+client.toLocaleLowerCase());
+         
+        for (let i = 1; i < arr.length; i++) { 
+          if (reg.test(arr[i].toLocaleLowerCase())) {
             iphoneList.push(arr[i]);
           }
+        }
+        if(iphoneList.length===0){
+         reject();
         }
         resolve(iphoneList.reverse());
       });
@@ -102,6 +110,8 @@ class question {
           callback(answers);
         }
       });
+    }).catch(()=>{
+       
     })
   }
   inputAppInfo() {

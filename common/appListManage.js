@@ -223,5 +223,11 @@ class common {
       log.success('== success =='); 
     }); 
   }
+  updateConfig(json){
+    const _json = Object.assign({},_config,json);
+    const jsonStr = JSON.stringify(_json, '', 2);
+    utils.file.reset(_configRoot, jsonStr);
+    log.success('== success ==');
+  }
 }
 module.exports = new common();

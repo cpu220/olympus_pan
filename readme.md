@@ -4,19 +4,17 @@
 > 就像在希腊神话中羊是不可或缺的一样，我们同样希望 Pan，能够帮助开发者驱逐一些因环境及条件等因素带来的疑难杂症。缩减问题复现及定位的时间。
 
 
-
 ### 1. 使用条件
 * 一台装有xcode 的mac 
 * 本地安装node 8.x
+
 
 ### 2.  安装
 
 * 以下安装选择一个即可
 
 ``` javascript
-npm install olympus-pan -g  // 外网版本，不含任何内置配置项,非严选业务建议选择这个
-ppnpm install  @psc-olympus/pan -g // 内网版本，默认配置项为严选客户端 
-
+npm install olympus-pan -g 
 // 不建议使用sudo来进行安装，可以使用下面命令进行去sudo
 sudo chown -R $USER /usr/local
 ```
@@ -48,7 +46,7 @@ pan ios -s  // 该命令为启动客户端
 ``` javascript
 pan ios -u 'http://xxx'  yanxuan  
 ```
-* ![url_pan_github.gif](https://user-images.githubusercontent.com/5085979/39689737-6a6828aa-520a-11e8-8b07-9b97952b9bf6.gif))
+* ![url_pan_github.gif](https://user-images.githubusercontent.com/5085979/39689737-6a6828aa-520a-11e8-8b07-9b97952b9bf6.gif)
 
 
 * 非严选客户端，则需要添加配置项才能支持
@@ -203,9 +201,14 @@ pan ios -u 'http://xxx'  yanxuan
 ---
 
 
-### 4.7 附属功能
+### 4.8 附属功能
 * pan ip // 用于获取当前设备ip信息
 * pan path // 用于获取当前目录地址
+
+### 4.9 设置默认客户端
+* pan ios --use iphone // 用于设置默认启动客户端类型，其中iphone可替换为ipad。
+  * eg:若只想有iphoneX的list，则可以这么输入 ** pan ios --use 'iphone 8' ** 用于筛选list，当然也可以搜索ipad等其他设备
+  * 如果输入不存在的设备，如 `iphone 9`;不会启动任何设备，但输入的设备在当前mac上只存在1个，会直接启动。
 
 ### 5. Q&A
 
@@ -224,3 +227,11 @@ pan ios -u 'http://xxx'  yanxuan
   * 安装失败说明你并没有改app的权限，请联系对应文件管理员或检查地址是否写错    
 6. 怎么在模拟器内呼叫出键盘？
   *  Hardware -> KeyBoard -> Toggle Software keyBoard 
+7. 执行pan ios -s 无响应
+  1. 请确认是否已安装xcode
+  2. 请确认是否打开过xcode并安装了模拟器，在xcode->Preferences->components选择安装ios版本
+  3. 执行`xcrun instruments -w 'iphone'`,查看是否报错，如果错误为`xcrun: error: unable to find utility "instruments", not a developer tool or in PATH`.  在中断输入:`sudo xcode-select -s /Applications/Xcode.app/Contents/Developer/`
+
+### 6. 其他
+1. 为了方便管理，更新说明以后放在issues了。首页只作为文档的简略说明
+2. 欢迎pr，若有业务需求或再封装，请联系作者。转载经说明出处。

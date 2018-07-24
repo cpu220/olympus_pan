@@ -36,6 +36,7 @@ program
   .option('--remove [type]', '移除指定app')
   .option('--info [type]', '获取指定app的信息')
   .option('--config [type]','同步配置项')
+  .option('--use [type]','配置默认的客户端，如iphone/ipad')
   .action(function (cmd, options) {
     ios(cmd, options); 
   }).on('--help', function () {

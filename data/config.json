@@ -1,4 +1,5 @@
 {
   "version": "1.0.0",
-  "panJSON": "../data/pan.json"
+  "panJSON": "../data/pan.json",
+  "client": "iPhone"
 }
