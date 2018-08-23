@@ -223,11 +223,27 @@ class common {
       log.success('== success =='); 
     }); 
   }
+  /**
+   * 更新config文件内容
+   * @param {*} json 
+   */
   updateConfig(json){
     const _json = Object.assign({},_config,json);
     const jsonStr = JSON.stringify(_json, '', 2);
     utils.file.reset(_configRoot, jsonStr);
     log.success('== success ==');
+  }
+  /**
+   * 查看并打印config
+   * @param {*} answers 
+   */
+  viewConfig(answers){
+    utils.file.readFile({
+      path: listJSONRoot,
+      isAbsolute: true
+    }).then((data) => { 
+      log.info(data);
+    }).catch(err =>log.error(err));
   }
 }
 module.exports = new common();
