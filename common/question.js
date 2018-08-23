@@ -262,7 +262,7 @@ class question {
   async getConfig() {
     const _this = this;
     const file = await utils.file.getFile('./', ['json', 'js']);
-    const typeList = ['this', 'resest', 'view'];
+    const typeList = ['this', 'resest'];
     const configList = [{
       type: 'list',
       message: '请选择操作类型',
@@ -282,9 +282,6 @@ class question {
       }, {
         name: '使用当前目录文件',
         value: 'this'
-      }, {
-        name: '查看当前配置',
-        value: 'view'
       }],
     }, {
       type: 'input',
