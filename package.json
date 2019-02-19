@@ -1,6 +1,6 @@
 {
   "name": "olympus-pan",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "潘神（Pan）,定位为开发者本地助手，用于定位线上bug以及难以重现的问题",
   "main": "index.js",
   "bin": {
