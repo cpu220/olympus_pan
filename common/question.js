@@ -39,20 +39,20 @@ class question {
     return new Promise((resolve, reject) => {
       console.log('== 正在获取本地设备清单 =='.x34);
       console.log('ps: 首次启动时间较长，请耐心等待... \n');
-      const cl = `xcrun instruments -w "${client}"`; 
+      const cl = `xcrun instruments -w "${client}"`;
       // console.log(cl);
       process.exec(cl, (err, stdout, stderr) => {
         const arr = stderr.split('\n')
         const iphoneList = [];
-        const reg =  new RegExp(`^`+client.toLocaleLowerCase());
-         
-        for (let i = 1; i < arr.length; i++) { 
+        const reg = new RegExp(`^` + client.toLocaleLowerCase());
+
+        for (let i = 1; i < arr.length; i++) {
           if (reg.test(arr[i].toLocaleLowerCase())) {
             iphoneList.push(arr[i]);
           }
         }
-        if(iphoneList.length===0){
-         reject();
+        if (iphoneList.length === 0) {
+          reject();
         }
         resolve(iphoneList.reverse());
       });
@@ -110,8 +110,8 @@ class question {
           callback(answers);
         }
       });
-    }).catch(()=>{
-       
+    }).catch(() => {
+
     })
   }
   inputAppInfo() {
@@ -260,8 +260,9 @@ class question {
   }
   // 输入地址
   async getConfig() {
-    const _this =this;
+    const _this = this;
     const file = await utils.file.getFile('./', ['json', 'js']);
+    const typeList = ['this', 'resest'];
     const configList = [{
       type: 'list',
       message: '请选择操作类型',
@@ -287,7 +288,7 @@ class question {
       name: 'url',
       message: "请输入地址",
       when: (answers) => {
-        if (answers.type !== 'reset' && answers.type !== 'this') {
+        if (!typeList.includes(answers.type)) {
           return answers.type;
         }
       },
@@ -302,7 +303,7 @@ class question {
       type: 'list',
       name: 'fileName',
       message: '输选择文件名',
-      choices:file||[],
+      choices: file || [],
       when: (answers) => {
         if (answers.type === 'this') {
           return answers.type;

@@ -5,7 +5,7 @@ const program = require('commander'),
   ios = require('../lib/ios.js'),
   _ip = require('../lib/ip.js'),
   _path = require('../lib/path.js'),
-  
+
   color = require('colors-cli/toxic');
 
 
@@ -14,9 +14,20 @@ const program = require('commander'),
 
 program
   // .allowUnknownOption()//不报错误
-  .version(`pan@${appInfo.version}`,'-v, --version')
-  .usage('\n pan '.x34 + '为本地debug工具，致力于为开发提供各种便捷的服务。\n  '.x33 + '目标为：更高的开发效率，更好的代码质量，更早下班')
-  .description(`内部工具，请注意使用`.x33 + `当前版本${appInfo.version}`)
+
+  .version(`pan@${appInfo.version}`, '-v, --version')
+  .usage(`
+      _______  _______  __    _ 
+      |       ||   _   ||  |  | |
+      |    _  ||  |_|  ||   |_| |
+      |   |_| ||       ||       |
+      |    ___||       ||  _    |
+      |   |    |   _   || | |   |
+      |___|    |__| |__||_|  |__|
+
+  `.x31 + `\n   本地debug工具，致力于为开发提供各种便捷的服务。\n  `.x33 + `目标为：更高的开发效率，更好的代码质量，更早下班`)
+  .description(`version:${appInfo.version}                                        
+  `)
   .parse(process.argv);
 
 
@@ -35,10 +46,10 @@ program
   .option('--update [type]', '更新指定app信息')
   .option('--remove [type]', '移除指定app')
   .option('--info [type]', '获取指定app的信息')
-  .option('--config [type]','同步配置项')
-  .option('--use [type]','配置默认的客户端，如iphone/ipad')
+  .option('--config [type]', '同步配置项')
+  .option('--use [type]', '配置默认的客户端，如iphone/ipad')
   .action(function (cmd, options) {
-    ios(cmd, options); 
+    ios(cmd, options);
   }).on('--help', function () {
     console.log('ios simulator'.x29);
   })
@@ -53,7 +64,7 @@ program
     console.log('获取ip');
   })
 
-  program
+program
   .command('path [cmd]')
   .description('当前路径信息'.x29)
   .action(function (cmd, options) {
@@ -63,7 +74,7 @@ program
   })
 
 //默认不传参数输出help
-if (!process.argv[2]) { 
-  program.help(); 
+if (!process.argv[2]) {
+  program.help();
 }
 program.parse(process.argv);
