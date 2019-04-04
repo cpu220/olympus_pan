@@ -1,3 +1,5 @@
+[![996.ICU](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu) 
+
 ## 说明
 > 潘神（Pan）,希腊神话中司羊群和牧羊人的神，被认为是帮助孤独的航行者驱逐恐怖的神。
 
